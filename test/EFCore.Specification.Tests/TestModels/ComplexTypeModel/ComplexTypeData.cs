@@ -58,7 +58,7 @@ public class ComplexTypeData : ISetSource
         var customer1 = new Customer
         {
             Id = 1,
-            Name = "Mona Cy",
+            Name = CustomerName.From("Mona Cy"),
             ShippingAddress = address1,
             BillingAddress = address1
         };
@@ -66,7 +66,7 @@ public class ComplexTypeData : ISetSource
         var customer2 = new Customer
         {
             Id = 2,
-            Name = "Antigonus Mitul",
+            Name = CustomerName.From("Antigonus Mitul"),
             ShippingAddress = new Address
             {
                 AddressLine1 = "72 Hickory Rd.",
@@ -91,7 +91,7 @@ public class ComplexTypeData : ISetSource
         var customer3 = new Customer
         {
             Id = 3,
-            Name = "Monty Elias",
+            Name = CustomerName.From("Monty Elias"),
             ShippingAddress = address3,
             BillingAddress = address3
         };

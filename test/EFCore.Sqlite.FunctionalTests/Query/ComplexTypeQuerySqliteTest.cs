@@ -13,6 +13,18 @@ public class ComplexTypeQuerySqliteTest : ComplexTypeQueryRelationalTestBase<
         Fixture.TestSqlLoggerFactory.SetTestOutputHelper(testOutputHelper);
     }
 
+    public override async Task Filter_on_property_using_converter(bool async)
+    {
+        await base.Filter_on_property_using_converter(async);
+
+        AssertSql(
+            """
+SELECT "c"."Id", "c"."Name", "c"."BillingAddress_AddressLine1", "c"."BillingAddress_AddressLine2", "c"."BillingAddress_ZipCode", "c"."BillingAddress_Country_Code", "c"."BillingAddress_Country_FullName", "c"."ShippingAddress_AddressLine1", "c"."ShippingAddress_AddressLine2", "c"."ShippingAddress_ZipCode", "c"."ShippingAddress_Country_Code", "c"."ShippingAddress_Country_FullName"
+FROM "Customer" AS "c"
+WHERE "c"."Name" LIKE '%Mitul%'
+""");
+    }
+
     public override async Task Filter_on_property_inside_complex_type(bool async)
     {
         await base.Filter_on_property_inside_complex_type(async);

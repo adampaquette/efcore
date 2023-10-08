@@ -20,7 +20,7 @@ public abstract class ComplexTypeBulkUpdatesTestBase<TFixture> : BulkUpdatesTest
     public virtual Task Delete_entity_type_with_complex_type(bool async)
         => AssertDelete(
             async,
-            ss => ss.Set<Customer>().Where(e => e.Name == "Monty Elias"),
+            ss => ss.Set<Customer>().Where(e => e.Name.Value == "Monty Elias"),
             rowsAffectedCount: 1);
 
     [ConditionalTheory]
@@ -61,7 +61,7 @@ public abstract class ComplexTypeBulkUpdatesTestBase<TFixture> : BulkUpdatesTest
             ss => ss.Set<Customer>().Where(c => c.ShippingAddress.ZipCode == 07728),
             e => e,
             s => s
-                .SetProperty(c => c.Name, c => c.Name + "Modified")
+                .SetProperty(c => c.Name,  c => CustomerName.From(c.Name.Value + "Modified"))
                 .SetProperty(c => c.ShippingAddress.ZipCode, c => c.BillingAddress.ZipCode)
                 .SetProperty(c => c.BillingAddress.ZipCode, 54321),
             rowsAffectedCount: 1);

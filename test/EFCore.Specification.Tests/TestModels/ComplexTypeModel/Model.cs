@@ -1,6 +1,9 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+
 namespace Microsoft.EntityFrameworkCore.TestModels.ComplexTypeModel;
 
 #nullable enable
@@ -8,10 +11,38 @@ namespace Microsoft.EntityFrameworkCore.TestModels.ComplexTypeModel;
 public class Customer
 {
     public int Id { get; set; }
-    public required string Name { get; set; }
+    public required CustomerName Name { get; set; }
 
     public required Address ShippingAddress { get; set; }
     public required Address BillingAddress { get; set; }
+}
+
+public record CustomerName
+{
+    public string Value { get; }
+
+    public CustomerName(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new ValidationException("CustomerName can't be empty.");
+        }
+
+        value = Normalize(value);
+
+        if (value.Length > 100)
+        {
+            throw new ValidationException("CustomerName exceeds the maximum length of 100 characters.");
+        }
+
+        Value = value;
+    }
+
+    public static CustomerName From(string value)
+        => new(value);
+
+    public string Normalize(string value)
+        => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value).Trim();
 }
 
 public record Address
