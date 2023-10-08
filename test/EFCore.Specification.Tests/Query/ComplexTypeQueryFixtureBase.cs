@@ -33,7 +33,7 @@ public abstract class ComplexTypeQueryFixtureBase : SharedStoreFixtureBase<Poola
             cb =>
             {
                 cb.Property(c => c.Id).ValueGeneratedNever();
-
+                cb.Property(c => c.Name).HasConversion(name => name.Value, s => CustomerName.From(s));
                 cb.ComplexProperty(c => c.ShippingAddress, sab => sab.ComplexProperty(sa => sa.Country));
                 cb.ComplexProperty(c => c.BillingAddress, sab => sab.ComplexProperty(sa => sa.Country));
             });

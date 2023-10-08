@@ -18,6 +18,13 @@ public abstract class ComplexTypeQueryTestBase<TFixture> : QueryTestBase<TFixtur
 
     [ConditionalTheory]
     [MemberData(nameof(IsAsyncData))]
+    public virtual Task Filter_on_property_using_converter(bool async)
+        => AssertQuery(
+            async,
+            ss => ss.Set<Customer>().Where(c => c.Name.Value.Contains("Mitul")));
+
+    [ConditionalTheory]
+    [MemberData(nameof(IsAsyncData))]
     public virtual Task Filter_on_property_inside_complex_type(bool async)
         => AssertQuery(
             async,
